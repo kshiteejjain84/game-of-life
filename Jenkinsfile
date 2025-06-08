@@ -22,7 +22,7 @@ pipeline {
         steps {
         dir('/mnt/project') {
         sh 'rm -rf /root/.m2/repository'
-        sh 'clean mvn install'
+        sh 'mvn clean install'
         stash includes: 'target/*.war', name: 'warfile'
         }
         }
