@@ -1,20 +1,23 @@
 pipeline {
-  agent {
-    label 'built-in'
-  }
+  agent none
   tools {
     maven 'apache-maven-3.9.10'
   }
   stages {
     stage('cloning git repo to custom location') {
+      agent {
+        label 'built-in'
       steps {
         dir('/mnt/project') {
           sh 'rm -rf *'
           checkout scm
         }
       }
+      }
     }
     stage('build with maven') {
+      agent {
+        label 'built-in'
       steps {
         dir('/mnt/project') {
         sh 'rm -rf /root/.m2/repository'
@@ -22,7 +25,8 @@ pipeline {
         stash includes: 'target/*.war', name: 'warfile'
         }
         }
-    }
+      }
+      }
    stage('parallel stages') {
      parallel {
        stage('deploy of war file on slave-1') {
